@@ -1,0 +1,14 @@
+[Unit]
+Description=Web application for e-ink display
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/frame
+ExecStart=/usr/bin/python3 /opt/frame/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

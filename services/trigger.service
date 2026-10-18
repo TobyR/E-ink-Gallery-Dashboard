@@ -1,0 +1,6 @@
+[Unit]
+Description=Run API call to trigger frame
+
+[Service]
+Type=oneshot
+ExecStart=/opt/trigger/trigger.sh

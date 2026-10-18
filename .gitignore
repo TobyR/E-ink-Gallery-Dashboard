@@ -1,0 +1,4 @@
+__pycache__
+config.json*
+frame/pictures/*
+!frame/pictures/README.md

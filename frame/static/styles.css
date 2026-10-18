@@ -1,0 +1,883 @@
+/* =========================================================
+   Theme
+   ========================================================= */
+
+:root {
+    color-scheme: light;
+
+    --bg: #f4f4f9;
+    --surface: #ffffff;
+    --surface-hover: #f8f9fb;
+
+    --text: #252a30;
+    --text-muted: #68707a;
+
+    --border: #dfe3e8;
+
+    --primary: #0070f3;
+    --primary-hover: #0051cb;
+
+    --danger: #dc3545;
+    --danger-hover: #b02a37;
+
+    --secondary: #6c757d;
+    --secondary-hover: #545b62;
+
+    --selected: #e8edf2;
+
+    --input-bg: #ffffff;
+
+    --modal-overlay: rgba(0, 0, 0, 0.65);
+
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    --modal-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Dark theme */
+
+html.dark {
+    color-scheme: dark;
+
+    --bg: #121417;
+    --surface: #1c2025;
+    --surface-hover: #252a30;
+
+    --text: #e8eaed;
+    --text-muted: #aeb5bd;
+
+    --border: #353b43;
+
+    --primary: #3d91ff;
+    --primary-hover: #66aaff;
+
+    --danger: #e05260;
+    --danger-hover: #ef6875;
+
+    --secondary: #737d88;
+    --secondary-hover: #87929e;
+
+    --selected: #2b323a;
+
+    --input-bg: #181b20;
+
+    --modal-overlay: rgba(0, 0, 0, 0.78);
+
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+
+    --modal-shadow: 0 8px 35px rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   Base
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 15px;
+
+    background: var(--bg);
+    color: var(--text);
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.page-header {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+}
+
+.page-header h2 {
+    margin: 0;
+}
+
+.theme-toggle {
+    position: absolute;
+    right: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 7px 10px;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    box-shadow: none;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+
+/* =========================================================
+   Cards
+   ========================================================= */
+
+.card {
+    background: var(--surface);
+
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card h3 {
+    margin-top: 5px;
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+
+    margin: 10px 0;
+    padding: 8px;
+
+    color: var(--text);
+    background: var(--input-bg);
+
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+
+input[type="file"]::file-selector-button {
+    margin-right: 10px;
+
+    padding: 7px 10px;
+
+    color: var(--text);
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: var(--surface-hover);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+button {
+    background: var(--primary);
+    color: white;
+
+    border: none;
+    padding: 10px 15px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    font-weight: bold;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.05s ease;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button.danger {
+    background: var(--danger);
+}
+
+button.danger:hover {
+    background: var(--danger-hover);
+}
+
+button.secondary {
+    background: var(--secondary);
+}
+
+button.secondary:hover {
+    background: var(--secondary-hover);
+}
+
+/* =========================================================
+   Gallery
+   ========================================================= */
+
+.gallery {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+    gap: 15px;
+}
+
+.gallery img {
+    display: block;
+
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    border-radius: 4px;
+    border: 1px solid var(--border);
+
+    object-fit: contain;
+
+    background: var(--surface-hover);
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.gallery img:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+.img-container {
+    padding: 4px;
+
+    text-align: center;
+    font-size: 12px;
+
+    overflow-wrap: break-word;
+
+    border-radius: 5px;
+
+    transition: background-color 0.15s ease;
+}
+
+.img-container:hover {
+    background-color: var(--surface-hover);
+    cursor: pointer;
+}
+
+.img-container p {
+    margin-bottom: 4px;
+}
+
+.selected {
+    background-color: var(--selected);
+
+    border: 1px solid var(--border);
+
+    font-weight: bold;
+}
+
+/* =========================================================
+   Storage
+   ========================================================= */
+
+progress {
+    width: 100%;
+    height: 20px;
+
+    accent-color: var(--primary);
+}
+
+progress::-webkit-progress-bar {
+    background-color: var(--surface-hover);
+    border-radius: 4px;
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--primary);
+    border-radius: 4px;
+}
+
+/* =========================================================
+   Modal
+   ========================================================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+    z-index: 1000;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: var(--modal-overlay);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--surface);
+    color: var(--text);
+
+    width: 100%;
+    max-width: 400px;
+
+    padding: 25px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow: var(--modal-shadow);
+
+    text-align: center;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 250px;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+
+    margin-bottom: 15px;
+
+    background: var(--surface-hover);
+}
+
+.modal-buttons {
+    display: flex;
+
+    gap: 10px;
+
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.modal-buttons form {
+    margin: 0;
+}
+
+.modal-filename {
+    font-size: 14px;
+    color: var(--text-muted);
+
+    overflow-wrap: break-word;
+}
+
+.hidden {
+    display: none;
+}
+
+/* =========================================================
+   Utility
+   ========================================================= */
+
+.centre-text {
+    text-align: center;
+}
+
+/* =========================================================
+   Controls card
+   ========================================================= */
+
+.controls-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   Card heading
+   --------------------------------------------------------- */
+
+.card-heading {
+    padding: 20px 20px 16px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.card-heading h3 {
+    margin: 0 0 4px;
+}
+
+.card-heading small {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ---------------------------------------------------------
+   Sections
+   --------------------------------------------------------- */
+
+.control-section {
+    padding: 20px;
+}
+
+.control-section + .control-section {
+    border-top: 1px solid var(--border);
+}
+
+.section-heading {
+    margin-bottom: 16px;
+}
+
+.section-heading h4 {
+    margin: 0 0 3px;
+
+    font-size: 15px;
+}
+
+.section-description {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ---------------------------------------------------------
+   Operation form
+   --------------------------------------------------------- */
+
+.operation-form {
+    margin: 0;
+}
+
+.form-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 25px;
+}
+
+/* Radio buttons */
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    flex: 1;
+}
+
+.radio-option {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.radio-option:hover {
+    background: var(--surface-hover);
+}
+
+.radio-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.radio-custom {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    border: 2px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--input-bg);
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.radio-option input:checked + .radio-custom {
+    border-color: var(--primary);
+
+    background: radial-gradient(circle, var(--primary) 0 45%, transparent 50%);
+}
+
+.radio-option:has(input:checked) {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 7%, var(--surface));
+}
+
+.radio-option strong {
+    display: block;
+    font-size: 14px;
+}
+
+.radio-option small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+/* ---------------------------------------------------------
+   Interval
+   --------------------------------------------------------- */
+
+.interval-control {
+    min-width: 130px;
+}
+
+.interval-control > label {
+    display: block;
+
+    margin-bottom: 6px;
+    margin-top: 6px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.number-input {
+    display: flex;
+    align-items: center;
+
+    height: 39px;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    background: var(--input-bg);
+
+    overflow: hidden;
+}
+
+.number-input input {
+    width: 100%;
+    height: 100%;
+
+    padding: 0 9px;
+
+    color: var(--text);
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    font: inherit;
+}
+
+.number-input input:focus {
+    box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.number-input span {
+    padding-right: 10px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+/* ---------------------------------------------------------
+   Form actions
+   --------------------------------------------------------- */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 18px;
+}
+
+.form-actions button {
+    min-width: 100px;
+}
+
+/* ---------------------------------------------------------
+   Action buttons
+   --------------------------------------------------------- */
+
+.actions-section {
+    padding-top: 18px;
+}
+
+.action-buttons {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.action-buttons form {
+    margin: 0;
+}
+
+.action-button {
+    width: 100%;
+    min-height: 64px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 2px;
+
+    padding: 8px;
+
+    background: var(--surface-hover);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    font-weight: normal;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.05s ease;
+}
+
+.action-button:hover {
+    background: var(--selected);
+    border-color: var(--primary);
+
+    color: var(--text);
+}
+
+.action-button:active {
+    transform: translateY(1px);
+}
+
+.action-button span {
+    font-size: 25px;
+    line-height: 25px;
+}
+
+.action-button small {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Make refresh slightly more prominent */
+
+.refresh-button {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.refresh-button small {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.refresh-button:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: white;
+}
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 480px) {
+    body {
+        margin-top: 12px;
+    }
+
+    .page-header {
+        padding-top: 45px;
+    }
+
+    .theme-toggle {
+        top: 0;
+        right: 0;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+
+        gap: 10px;
+    }
+
+    .control-section {
+        padding: 16px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 16px;
+    }
+
+    .interval-control {
+        min-width: 0;
+    }
+
+    .number-input {
+        width: 100%;
+    }
+
+    .number-input input {
+        flex: 1;
+        width: auto;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    .action-button {
+        min-height: 58px;
+    }
+}
+
+/* =========================================================
+   Reduced motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}
+
+/* =========
+    Alert Bar
+    ======== */
+.alert-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+}
+
+.alert-bar.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.alert-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.alert-content strong {
+    font-size: 14px;
+}
+
+.alert-content span {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.alert-error {
+    background-color: var(--danger);
+}
+
+.alert-success {
+    background-color: #28a745;
+}
+
+.alert-message {
+    background-color: var(--primary);
+}
+
+.alert-close {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 5px;
+    opacity: 0.7;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}

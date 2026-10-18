@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Ink Frame Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        (() => {
+            const savedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add("dark");
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div id="alert-bar" class="alert-bar hidden">
+        <div class="alert-content">
+            <strong id="alert-title"></strong>
+            <span id="alert-text"></span>
+        </div>
+        <button id="alert-close" class="alert-close" aria-label="Close alert">&times;</button>
+    </div>
+
+    <header class="page-header">
+        <h2 class="centre-text">Frame Manager</h2>
+
+        <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"
+            title="Toggle dark mode">
+            <span id="theme-icon">☾</span>
+            <span id="theme-label">Dark mode</span>
+        </button>
+    </header>
+
+    <div class="card">
+        <h3>Upload New Picture</h3>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Upload & Push to Frame</button>
+        </form>
+    </div>
+
+    <div class="card controls-card">
+
+        <div class="card-heading">
+            <div>
+                <h3>Controls</h3>
+                <small>Screen can take up to 30 seconds to update</small>
+            </div>
+        </div>
+
+
+        <!-- Operation -->
+        <section class="control-section">
+
+            <div class="section-heading">
+                <h4>Operation</h4>
+                <span class="section-description">
+                    Choose how the frame changes images.
+                </span>
+            </div>
+
+            <!--
+            Could add additional operations here,
+            eg mqtt and such and switch operations from dropdowns
+            -->
+
+            <form action="/operation" method="post" class="operation-form">
+
+                <div class="form-row">
+
+                    <div class="radio-group">
+
+                        <label class="radio-option">
+                            <input type="radio" id="static" name="mode" value="0" {% if mode==0 or mode > 2
+                                %}checked{% endif %}>
+
+                            <span class="radio-custom"></span>
+
+                            <span>
+                                <strong>Static</strong>
+                                <small>Does not change automatically</small>
+                            </span>
+                        </label>
+
+                        <label class="radio-option">
+                            <input type="radio" id="rotating" name="mode" value="1" {% if mode==1 %}checked{% endif %}>
+
+                            <span class="radio-custom"></span>
+
+                            <span>
+                                <strong>Rotating</strong>
+                                <small>Cycle through images</small>
+                            </span>
+                        </label>
+
+
+                        <label class="radio-option">
+                            <input type="radio" id="random" name="mode" value="2" {% if mode==2 %}checked{% endif %}>
+
+                            <span class="radio-custom"></span>
+
+                            <span>
+                                <strong>Random</strong>
+                                <small>Choose images randomly</small>
+                            </span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="interval-control">
+
+                    <label for="start">
+                        Start Time <small> ({{timezone}})</small>
+                    </label>
+
+                    <div class="number-input">
+                        <input type="time" id="start" name="start" min="00:00" max="23:00" step="3600"
+                            value="{{ start }}">
+                        <span>hourly</span>
+                    </div>
+
+                    <label for="interval">
+                        Interval
+                    </label>
+
+                    <div class="number-input">
+                        <input type="number" id="interval" name="interval" min="1" step="1" inputmode="numeric"
+                            value="{{ interval }}">
+
+                        <span>hours</span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+                    <button type="submit">
+                        Update Operation
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- Actions -->
+        <section class="control-section actions-section">
+
+            <div class="section-heading">
+                <h4>Actions</h4>
+                <span class="section-description">
+                    Manually control the displayed image.
+                </span>
+            </div>
+
+            <div class="action-buttons">
+
+                <form action="/previous" method="post">
+                    <button type="submit" class="action-button" aria-label="Previous image" title="Previous image">
+                        <span>←</span>
+                        <small>Previous</small>
+                    </button>
+                </form>
+
+
+                <form action="/refresh" method="post">
+                    <button type="submit" class="action-button refresh-button" aria-label="Refresh screen"
+                        title="Refresh screen">
+                        <span>↻</span>
+                        <small>Refresh</small>
+                    </button>
+                </form>
+
+
+                <form action="/next" method="post">
+                    <button type="submit" class="action-button" aria-label="Next image" title="Next image">
+                        <span>→</span>
+                        <small>Next</small>
+                    </button>
+                </form>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <div class="card">
+        <h3>Stored Gallery</h3>
+
+        <div class="gallery">
+            {% for img in images %}
+            <div class="img-container {% if img == current %}selected{% endif %}"
+                onclick="openImageModal('{{ img }}', '/pictures/{{ img }}')">
+                <img src="/pictures/{{img}}" alt="{{img}}">
+                <p>{{img.removesuffix(".bmp")}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Storage</h3>
+        <p>Free Space: <span id="free-space">Loading...</span></p>
+        <progress id="disk-bar" value="0" min="0" max="100"></progress>
+        <p><small id="disk-details"></small></p>
+    </div>
+
+    <div id="image-modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+
+            <img id="modal-image" src="" alt="Selected image">
+
+            <p class="modal-filename" id="modal-filename"></p>
+
+            <!-- Normal action buttons -->
+            <div id="action-buttons">
+
+                <div class="modal-buttons">
+
+                    <form action="/select" method="post">
+                        <input type="hidden" name="filename" id="select-filename">
+                        <button type="submit">
+                            Select
+                        </button>
+                    </form>
+
+                    <button type="button" class="danger" onclick="showRemoveConfirmation()">
+                        Remove
+                    </button>
+
+                    <button type="button" class="secondary" onclick="closeModal()">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Remove confirmation -->
+            <div id="remove-confirmation" class="hidden">
+
+                <p>
+                    Are you sure you want to remove this image?
+                </p>
+
+                <strong id="confirmation-filename"></strong>
+
+                <div class="modal-buttons">
+
+                    <form action="/remove" method="post">
+                        <input type="hidden" name="filename" id="remove-filename">
+
+                        <button type="submit" class="danger">
+                            Yes, Remove
+                        </button>
+                    </form>
+
+                    <button type="button" class="secondary" onclick="cancelRemove()">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Pass in values to scripts here
+        let total = +"{{storage.total}}";
+        let used = +"{{storage.used}}";
+        let free = +"{{storage.free}}";
+    </script>
+    <script src="/static/scripts.js"></script>
+</body>
+
+</html>
